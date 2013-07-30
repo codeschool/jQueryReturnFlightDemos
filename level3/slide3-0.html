@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 3-1</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <script src="ajax-shim.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('form').on('submit', function(e) {
+        e.preventDefault();
+        $('#vacation').hide().html("<p style='width:425px;'>Your vacation to Paris, France has been booked for $1196.00 for 4 nights. Confirmation #345feab.</p>").fadeIn();
+      });
+    });
+  </script>
+
+  <style>
+    #vacation input[type=submit] {
+      padding-right: 11px;
+    }
+    #vacation.is-loading input[type=submit] {
+      background: url(../images/ajax-loader.gif) no-repeat right;
+    }
+  </style>
+</head>
+<body class="inner">
+  
+<h1>jQuery Travels - Trip Booker</h1>
+
+<div id='vacation'>
+  <form action='/level3/book.html' method='GET'>
+    <p>
+      <label for='destination'>Destination:</label>
+      <select id='destination' name='destination'>
+        <option>Select a Destination</option>
+        <option value='hawaii' data-price='199'>Hawaii</option>
+        <option value='paris' data-price='299'>Paris</option>
+        <option value='london' data-price='399'>London</option>
+      </select>
+    </p>
+    <p>
+      <label for='quantity'>Tickets:</label>
+      <input type='text' class='quantity' id='quantity' name='quantity' value='1' />
+    </p>
+
+    <p><input type='submit' value='Book Trip' /></p>
+  </form>
+</div>
+
+<p class="featured">Call us at 555-25937 to make a reservation today!</p>
+
+</body>
+</html>

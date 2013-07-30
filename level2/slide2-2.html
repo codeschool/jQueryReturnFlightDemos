@@ -1,0 +1,28 @@
+<html>
+<head>
+  <script src="../jquery-1.9.1.js"></script>
+</head>
+
+<body>
+
+
+  <script>
+
+    function Vacation(destination) {
+      var destination = destination;
+      this.details = function() {
+        console.log("This vacation is to " + destination);
+      }
+    }
+
+    $(document).ready(function() {
+      var paris = new Vacation('Paris');
+      paris.details();
+      console.log(paris.destination); 
+
+      var london = new Vacation('London');
+      london.details();
+    });
+  </script>
+</body>
+</html>

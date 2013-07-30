@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="us">
+  <head>
+    <meta charset="utf-8">
+    <title>Promises</title>
+    <link href="../style.css" rel="stylesheet">
+    <script src="../jquery-1.9.1.js"></script>
+
+    <!--
+      This ajax shim should be included in some other way so the user doesn't see it.
+      It's purpose is to stub out the ajax method in jquery to only work with the city
+      api calls, which are hardcodeded in the shim
+    -->
+    <script src="ajax_shim.js"></script>
+
+    <script>
+      WeatherObject = {
+        getWeather: function(location){
+          var promise = $.Deferred();
+
+          $.ajax({
+            url: '/weather',
+            type: 'get',
+            data: {q: location},
+            success: function(result){
+              promise.resolve(result.weather);
+            },
+            error: function(){
+              var error = 'Invalid Location';
+              promise.reject(error);
+            }
+          });
+
+          return promise;
+        }
+      }
+
+      CityObject = {
+        getCity: function(location){
+          var promise = $.ajax({
+            url: '/cities',
+            type: 'get',
+            data: {
+              loc: location
+            }
+          });
+
+          return promise
+        }
+
+      }
+
+      $(document).ready(function(){
+        $('button').on('click', function() {
+          var loc = $(this).parent().data('loc');
+          var resultDiv = $(this).parent().find('.results').empty();
+          WeatherObject.getWeather(loc).done(function(weatherResult){
+            resultDiv.append(weatherResult);
+          });
+
+          CityObject.getCity(loc).done(function(cityResult){
+            resultDiv.append('<img src="' + cityResult.image + '" />')
+                     .append('<h2>' + cityResult.name + '</h2>')
+                     .append('<p>' + cityResult.description + '</p>')
+          });
+        });
+      });
+    </script>
+  </head>
+  <body style='padding-top:20px'>
+    <ul class="locations">
+      <li data-loc='london,uk'>
+        London, UK
+        <button>More Info</button>
+        <div class="results"></div>
+      </li>
+
+      <li data-loc='paris,france'>
+        Paris, France
+        <button>More Info</button>
+        <div class="results"></div>
+      </li>
+
+      <li data-loc='madrid,spain'>
+        Madrid, Spain
+        <button>More Info</button>
+        <div class="results"></div>
+      </li>
+    </ul>
+  </body>
+</html>

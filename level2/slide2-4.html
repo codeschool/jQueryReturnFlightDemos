@@ -1,0 +1,94 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 2-3 Demo</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+
+function Confirmation(el) {
+  var confirmation = this;
+
+  this.loadConfirmation = function() {
+    $.ajax('confirmation.html', {
+      timeout: 3000,
+      context: confirmation,
+      success: function(response) {
+        this.ticket.html(response).slideDown();
+      },
+      error: function(request, errorType, errorMessage) {
+        alert('Error: ' + errorType + ' with message: ' + errorMessage);
+      },
+      beforeSend: function() {
+        this.el.addClass('is-loading');
+      },
+      complete: function() {
+        this.el.removeClass('is-loading');
+      }
+    });
+  }
+
+  this.showBoardingPass = function(event) {
+    event.preventDefault();
+    confirmation.el.find('.view-boarding-pass').hide();
+    confirmation.el.find('.boarding-pass').show();
+  }
+
+  this.el = el;
+  this.ticket = this.el.find('.ticket');
+
+  this.el.on('click', 'button', this.loadConfirmation);
+  this.ticket.on('click', '.view-boarding-pass', this.showBoardingPass);
+};
+
+$(function() { 
+  new Confirmation($('#paris'));
+  new Confirmation($('#london'));
+});
+  </script>
+
+  <style>
+    .confirmation { font-size: 140% ;}
+    .confirmation.is-loading button { background: #4bb64f url(../images/ajax-loader.gif) no-repeat right; }
+    button { font-size: 14px;}
+    .boarding-pass { display: none; }
+  </style>
+</head>
+<body class="inner">
+
+ <div class="rendered">
+
+  <p class="title">Rendered HTML:</p>
+      <h1>jQuery Travels - Vacation Confirmation</h1>
+
+      <div id='confirmations'>
+        <h2>Confirmations</h2>
+        <ul>
+          <li class="confirmation" id='paris' data-confirmation='aeux345'>
+            <h3>
+              Paris Vacation
+              <img src="../images/14-tag-white.png" alt="Show Ticket" />
+            </h3>
+            <p>Paid $1399.99 on January 14, 2013.</p>
+            <button>Flight details</button>
+            <br/>
+            <div class='ticket'></div>
+          </li>
+
+          <li class="confirmation" id='london' data-confirmation='hr4k21'>
+            <h3>
+              London Vacation
+              <img src="../images/14-tag-white.png" alt="Show Ticket" />
+            </h3>
+            <p>Paid $1199.99 on December 28, 2013.</p>
+            <button>Flight details</button>
+            <br/>
+            <div class='ticket'></div>
+          </li>
+        </ul>
+      </div>
+
+      <p class="featured">Call us at 555-25937 to make a reservation today!</p>
+</div>
+</div>
+</body>
+</html>

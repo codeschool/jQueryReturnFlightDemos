@@ -1,0 +1,78 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 2-1 Demo</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+
+    var confirmation = {
+      init: function() {
+        $('.confirmation').on('click', 'button', this.loadConfirmation);
+        $('.ticket').on('click', '.view-boarding-pass', this.showBoardingPass);
+      },
+
+      loadConfirmation: function() {
+        $.ajax('confirmation.html', {
+          timeout: 3000,
+          success: function(response) {
+            $('.ticket').html(response).slideDown();
+          },
+          error: function(request, errorType, errorMessage) {
+            alert('Error: ' + errorType + ' with message: ' + errorMessage);
+          },
+          beforeSend: function() {
+            $('.confirmation').addClass('is-loading');
+          },
+          complete: function() {
+            $('.confirmation').removeClass('is-loading');
+          }
+        });
+      },
+
+      showBoardingPass: function(event) {
+        event.preventDefault();
+        $('.view-boarding-pass').hide();
+        $('.boarding-pass').show();
+      }
+    };
+
+    $(function() { 
+      confirmation.init();
+    });
+  </script>
+
+  <style>
+    .confirmation { font-size: 140% ;}
+    .confirmation.is-loading button { background: #4bb64f url(../images/ajax-loader.gif) no-repeat right; }
+    button { font-size: 14px;}
+    .boarding-pass { display: none; }
+  </style>
+</head>
+<body class="inner">
+
+ <div class="rendered">
+
+  <p class="title">Rendered HTML:</p>
+      <h1>jQuery Travels - Vacation Confirmation</h1>
+
+      <div id='confirmations'>
+        <h2>Confirmations</h2>
+        <ul>
+          <li class="confirmation" >
+            <h3>
+              Hawaiian Vacation
+              <img src="../images/14-tag-white.png" alt="Show Ticket" />
+            </h3>
+            <p>Paid $399.99 on January 14, 2013.</p>
+            <button>Flight details</button>
+            <br/>
+            <div class='ticket'></div>
+          </li>
+        </ul>
+      </div>
+
+      <p class="featured">Call us at 555-25937 to make a reservation today!</p>
+</div>
+</div>
+</body>
+</html>

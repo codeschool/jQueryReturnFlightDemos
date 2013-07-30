@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 1-1 Demo</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+    $(function() { 
+      $('.confirmation').on('click', 'button', function() {
+        $(this).closest('.confirmation').find('.ticket').slideDown();
+      });
+      $('.view-boarding-pass').on('click', function(e) {
+        e.preventDefault();
+        $('.view-boarding-pass').hide();
+        $('.boarding-pass').show();
+      })
+    });
+  </script>
+
+  <style>
+    .confirmation { font-size: 140% ;}
+    button { font-size: 14px;}
+    .boarding-pass { display: none; }
+  </style>
+</head>
+<body class="inner">
+
+ <div class="rendered">
+
+  <p class="title">Rendered HTML:</p>
+      <h1>jQuery Travels - Vacation Confirmation</h1>
+
+      <div id='confirmations'>
+        <h2>Confirmations</h2>
+        <ul>
+          <li class="confirmation" >
+            <h3>
+              Hawaiian Vacation
+              <img src="../images/14-tag-white.png" alt="Show Ticket" />
+            </h3>
+            <p>Paid $399.99 on January 14, 2013.</p>
+            <button>Flight details</button>
+            <br/>
+            <div class='ticket'>
+              <ul class='details'>
+                <li><strong>Destination: </strong> Honolulu, HI</li>
+                <li><strong>Depart Date: </strong> February 20, 2013 at 09:30</li>
+                <li><strong>Flight Number: </strong> 815</li>
+                <li>
+                  <strong>Boarding Pass: </strong>
+                  <a href='#' class='view-boarding-pass'>View Boarding Pass</a>
+                  <img src='ticket.png' alt='Your boarding pass' class='boarding-pass' />
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <p class="featured">Call us at 555-25937 to make a reservation today!</p>
+</div>
+</div>
+</body>
+</html>

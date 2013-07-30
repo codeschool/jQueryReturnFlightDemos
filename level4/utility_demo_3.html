@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>jQuery Utility Methods</title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../jquery-1.9.1.js"></script>
+
+    <!--
+      This ajax shim should be included in some other way so the user doesn't see it.
+      It's purpose is to stub out the ajax method in jquery to only work with the city
+      api calls, which are hardcodeded in the shim
+    -->
+
+    <!--
+    Change to popular vacation packages (section 3-1 3-2) sites, button refreshes the view
+    -->
+    <script src="ajax_shim.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.update-flight-status').on("click", function() {
+          $.getJSON('/status', function(result) {
+            var cityElements = $.map(result, function(city, index) {
+              var listItem = $('<li></li>');
+              $("<h3>"+city.name+"</h3>").appendTo(listItem);
+              $("<p>"+city.status+"</p>").appendTo(listItem);
+              return listItem;
+            });
+            $('.status-list').detach()
+                             .html(cityElements)
+                             .appendTo('.status')
+          });
+        });
+      });
+    </script>
+  </head>
+  <body class="demo-5">
+    <button class='update-flight-status'>Update Flight Status</button>
+    <div class='status'>
+      <ul class='status-list'>
+        <li>
+          <h3>JFK - New York, NY</h3>
+          <p>Departing Location</p>
+        </li>
+        <li>
+          <h3>SFO - San Francisco, CA</h3>
+          <p>Destination Location</p>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

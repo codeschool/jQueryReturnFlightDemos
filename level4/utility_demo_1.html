@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>jQuery Air Atlantic - Chapter 4 - Final Demo</title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../jquery-1.9.1.js"></script>
+
+    <!--
+      This ajax shim should be included in some other way so the user doesn't see it.
+      It's purpose is to stub out the ajax method in jquery to only work with the city
+      api calls, which are hardcodeded in the shim
+    -->
+
+    <!--
+    Change to popular vacation packages (section 3-1 3-2) sites, button refreshes the view
+    -->
+    <script src="ajax_shim.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('button').on('click', function() {
+          $.ajax({
+            url: '/favorite/1',
+            type: 'get',
+            success: function(result) {
+              var favorite = $('.favorite');
+              favorite.find('p').html(result.name);
+              favorite.find('img')
+                      .attr('src', result.image);
+            }
+          });
+        });
+      });
+    </script>
+  </head>
+  <body class="demo-5">
+
+    <div id='vacations'>
+      
+      <ul>
+        <li>
+          <button>Display favorite</button>
+          <div class='favorite'>
+            <h3>Favorite</h3>
+            <img src=''/>
+            <p></p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </body>
+</html>

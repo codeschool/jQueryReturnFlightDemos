@@ -1,0 +1,76 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 5-5 Demo</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <style>
+    .is-showing-price button {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+    $(function() {
+      $('.vacation').priceify({ days: 5 });
+
+      $('.show-prices').on('click', function(e) {
+        e.preventDefault();
+        $('.vacation').trigger('show.priceify');
+      });
+    });
+
+    $.fn.priceify = function(options) {
+      this.each(function() {
+        var show = function() {
+          var details = $('<p>Book '+ settings.days +' days for $'+(settings.days * settings.price)+'</p>');
+          settings.vacation.addClass('is-showing-price').append(details);
+        };
+        var remove = function() {
+          settings.vacation.fadeOut().off('.priceify'); 
+        };
+
+        var defaults = {
+          days: 7,
+          vacation: $(this),
+          price: $(this).data('price')
+        }
+        var settings = $.extend({}, defaults, options);
+        settings.vacation.on('click.show.priceify', 'button', show);
+        settings.vacation.on('show.priceify', show);
+        settings.vacation.on('click.remove.priceify', '.remove-vacation', remove);
+      });
+    };
+</script>
+</head>
+<body class='inner chapter4-4'>
+  
+<h1>jQuery Travels - Vacation Packages</h1>
+
+<div id='vacations'>
+  <h2>Packages</h2>
+  <ul id="filters">
+    <li><a href='#' class='show-prices'>Show All Prices</a></li>
+  </ul>
+
+  <ul>
+    <li class="vacation onsale" data-price='399'>
+      <h3>Hawaiian Vacation</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+    <li class="vacation expiring" data-price='749'>
+      <h3>European Getaway</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+    <li class="vacation" data-price='859'>
+      <h3>Visit Japan</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+  </ul>
+</div>
+
+<p class="featured">Call us at 555-25937 to make a reservation today!</p>
+
+</body>
+</html>

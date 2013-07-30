@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 3-2</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('form').on('submit', function(e) {
+        e.preventDefault();
+        var form = $(this),
+            vacation = $('#vacation');
+
+        $.ajax('book.html', {
+          type: 'GET',
+          data: form.serialize(),
+          complete: function() {
+            vacation.removeClass('is-loading');
+          },
+          success: function(result) {
+            form.remove();
+            vacation.hide().html(result).fadeIn();
+          },
+          error: function() {
+            alert('An error occurred fetching the latest photos. Please try again.');
+          },
+          beforeSend: function() {
+            vacation.addClass('is-loading');
+          }
+        });
+      });
+    });
+  </script>
+
+  <style>
+    #vacation input[type=submit] {
+      padding-right: 11px;
+    }
+    #vacation.is-loading input[type=submit] {
+      background: url(../images/ajax-loader.gif) no-repeat right;
+    }
+  </style>
+</head>
+<body class="inner">
+  
+<h1>jQuery Travels - Trip Booker</h1>
+
+<div id='vacation'>
+  <form action='/level3/book.html' method='POST'>
+    <p>
+      <label for='destintation'>Destination:</label>
+      <select id='destintation' name='destination'>
+        <option>Select a Destination</option>
+        <option value='hawaii' data-price='199'>Hawaii</option>
+        <option value='paris' data-price='299'>Paris</option>
+        <option value='london' data-price='399'>London</option>
+      </select>
+    </p>
+    <p>
+      <label for='quantity'>Tickets:</label>
+      <input type='text' class='quantity' id='quantity' name='quantity' value='1' />
+    </p>
+
+    <p><input type='submit' value='Book Trip' /></p>
+  </form>
+</div>
+
+<p class="featured">Call us at 555-25937 to make a reservation today!</p>
+
+</body>
+</html>

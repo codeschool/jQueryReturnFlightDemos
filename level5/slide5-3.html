@@ -1,0 +1,60 @@
+<html>
+<head>
+  <title>jQuery Air Atlantic - Chapter 5-final Demo</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../jquery-1.9.1.js"></script>
+  <style>
+    .is-showing-price button {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+$(function() {
+  $('.vacation').priceify();
+});
+
+$.fn.priceify = function() {
+  this.each(function() {
+    var vacation = $(this);
+    vacation.on('click.priceify', 'button', function() {
+      var price = vacation.data('price'),
+          details = $('<p>Book 3 days for $'+(3 * price)+'</p>');
+      vacation.addClass('is-showing-price').append(details);
+    });
+  });
+};
+  </script>
+</head>
+<body class='inner chapter4-4'>
+  
+<h1>jQuery Travels - Vacation Packages</h1>
+
+<div id='vacations'>
+  <h2>Packages</h2>
+  <ul id="filters">
+    <li><a href='#' class='show-prices'>Show All Prices</a></li>
+  </ul>
+
+  <ul>
+    <li class="vacation onsale" data-price='399'>
+      <h3>Hawaiian Vacation</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+    <li class="vacation expiring" data-price='749'>
+      <h3>European Getaway</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+    <li class="vacation" data-price='859'>
+      <h3>Visit Japan</h3>
+      <button>Show Price</button>
+      <a href='#' class='remove-vacation'>Not Interested</a>
+    </li>
+  </ul>
+</div>
+
+<p class="featured">Call us at 555-25937 to make a reservation today!</p>
+
+</body>
+</html>

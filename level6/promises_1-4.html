@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="us">
+  <head>
+    <meta charset="utf-8">
+    <title>Promises</title>
+    <link href="../style.css" rel="stylesheet">
+    <script src="../jquery-1.9.1.js"></script>
+
+    <!--
+      This ajax shim should be included in some other way so the user doesn't see it.
+      It's purpose is to stub out the ajax method in jquery to only work with the city
+      api calls, which are hardcodeded in the shim
+    -->
+    <script src="ajax_shim.js"></script>
+
+    <script>
+      WeatherObject = {
+        getWeather: function(location){
+          var promise = $.Deferred();
+
+          $.ajax({
+            url: '/weather',
+            type: 'get',
+            data: {q: location},
+            success: function(result){
+              promise.resolve(result.weather);
+            },
+            error: function(){
+              var erro = 'Invalid Location';
+              promise.reject(error);
+            }
+          });
+
+          return promise;
+        }
+      }
+
+      $(document).ready(function(){
+        $('button').on('click', function(){
+          var loc = $('.loc').text();
+
+          WeatherObject.getWeather(loc).done(function(result){
+            $('.weather').text(result);
+          }).fail(function(error){
+            console.log(error);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class='favorite'>
+      <h3>Favorite</h3>
+      <img src='images/paris.jpg'/>
+      <p class='loc'>Paris, France</p>
+      <p class='weather'></p>
+      <button>Show Weather</button>
+    </div>
+  </body>
+</html>
